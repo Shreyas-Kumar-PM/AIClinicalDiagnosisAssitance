@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: clindx_dev
+  pool: 5
+  username: postgres
+  password:

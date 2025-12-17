@@ -1,0 +1,26 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Rails
+log/
+tmp/
+storage/
+db/*.sqlite3
+.env
+
+# OS
+.DS_Store
+
+# Build
+dist/
+build/
+
