@@ -1,0 +1,531 @@
+/* ===== GLOBAL RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0b132b; /* NAVY BLUE */
+  color: #e5e7eb; /* LIGHT GREY */
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 8px;
+}
+
+/* ===== GLASS CARD (MAIN SURFACE) ===== */
+.glass-card {
+  background: rgba(17, 24, 39, 0.9); /* dark grey-blue */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+}
+
+/* ===== HEADINGS ===== */
+h1, h2, h3, h4, h5 {
+  color: #f5f5dc; /* BEIGE */
+  font-weight: 700;
+}
+
+/* ===== TEXT ===== */
+p {
+  color: #d1d5db;
+}
+
+/* ================= FORM CONTROLS (GLOBAL FIX) ================= */
+
+.form-control {
+  background: #e5e7eb !important;      /* LIGHT GREY */
+  border: 1px solid #cbd5e1 !important;
+  color: #020617 !important;           /* DARK NAVY TEXT */
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-weight: 500;
+}
+
+/* Placeholder visibility */
+.form-control::placeholder {
+  color: #6b7280 !important;           /* MEDIUM GREY */
+  opacity: 1;
+}
+
+/* Focus state */
+.form-control:focus {
+  background: #f5f5dc !important;      /* BEIGE ON FOCUS */
+  border-color: #0b132b !important;    /* NAVY BORDER */
+  box-shadow: none;
+  color: #020617 !important;
+}
+
+/* Disable dark autofill in Chrome */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #020617;
+  -webkit-box-shadow: 0 0 0px 1000px #e5e7eb inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+.form-section-title {
+  margin-top: 28px;
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: #0b132b;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.btn-outline-light {
+  color: #f5f5dc;
+  border-color: #f5f5dc;
+}
+
+.btn-outline-light:hover {
+  background: #f5f5dc;
+  color: #0b132b;
+}
+
+/* ===== TABLE ===== */
+table {
+  color: #e5e7eb;
+}
+
+thead {
+  color: #f5f5dc;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+/* ===== SECTION TITLES ===== */
+.form-section-title {
+  margin-top: 24px;
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: #f5f5dc;
+}
+/* Dashboard buttons hover */
+.dashboard-btn:hover {
+  background: #e6e1c5 !important; /* slightly darker beige */
+  color: #020617 !important;
+}
+/* Patient page buttons */
+.patient-btn:hover {
+  background: #020617 !important;
+}
+
+.patient-action-btn {
+  background: #f5f5dc !important;
+  border: none !important;
+  color: #0b132b !important;
+  font-weight: 600;
+}
+
+.patient-action-btn:hover {
+  background: #e6e1c5 !important;
+}
+/* ===== Patients Page ===== */
+
+.patients-header {
+  background: #e5e7eb;
+  border-radius: 18px;
+  padding: 28px;
+  margin-bottom: 28px;
+}
+
+.patients-header h2 {
+  color: #0b132b;
+  font-weight: 800;
+}
+
+.patients-header span {
+  color: #6b7280;
+}
+
+.patients-header p {
+  color: #374151;
+  margin-bottom: 0;
+}
+
+/* Add patient card */
+.add-patient-card {
+  background: #f5f5dc;
+  border-radius: 18px;
+  padding: 28px;
+  margin-bottom: 28px;
+  border: none;
+}
+
+.add-patient-card h5 {
+  color: #0b132b;
+  font-weight: 700;
+}
+
+.add-patient-card label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.add-patient-card input {
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+}
+
+.add-patient-btn {
+  background: #0b132b;
+  color: #f5f5dc;
+  font-weight: 700;
+  border: none;
+  padding: 10px;
+}
+
+.add-patient-btn:hover {
+  background: #020617;
+}
+
+/* Table */
+.patients-table-card {
+  background: #e5e7eb;
+  border-radius: 18px;
+  padding: 24px;
+  border: none;
+}
+
+.patients-table-card th {
+  color: #0b132b;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.patients-table-card td {
+  color: #020617;
+  padding: 14px 8px;
+}
+
+.empty-text {
+  color: #6b7280;
+  padding: 20px 0;
+}
+
+/* Action buttons */
+.action-group {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  background: #f5f5dc;
+  border: none;
+  color: #0b132b;
+  font-weight: 600;
+}
+
+.action-btn:hover {
+  background: #e6e1c5;
+}
+
+.action-btn.primary {
+  background: #0b132b;
+  color: #f5f5dc;
+}
+
+.action-btn.primary:hover {
+  background: #020617;
+}
+/* ===== Global Palette ===== */
+body {
+  background: linear-gradient(180deg, #020617, #0b132b);
+}
+
+/* ===== Patients Header ===== */
+.patients-header {
+  background: #e5e7eb;
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  border: none;
+}
+
+.patients-header h2 {
+  color: #0b132b;
+  font-weight: 800;
+}
+
+.patients-header p {
+  color: #6b7280;
+  margin-bottom: 0;
+}
+
+/* ===== Add Patient ===== */
+.add-patient-card {
+  background: #f5f5dc;
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  border: none;
+}
+
+.add-patient-card h5 {
+  color: #0b132b;
+  font-weight: 700;
+}
+
+.add-patient-card label {
+  font-weight: 600;
+  color: #0b132b;
+}
+
+.add-patient-card input {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+/* ===== Buttons ===== */
+.primary-btn {
+  background: #0b132b;
+  color: #f5f5dc;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+}
+
+.primary-btn:hover {
+  background: #020617;
+}
+
+.secondary-btn {
+  background: #e5e7eb;
+  color: #0b132b;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 14px;
+}
+
+.secondary-btn:hover {
+  background: #d1d5db;
+}
+
+/* ===== Table ===== */
+.patients-table-card {
+  background: #e5e7eb;
+  border-radius: 20px;
+  padding: 26px;
+  border: none;
+}
+
+.patients-table-card th {
+  color: #0b132b;
+  font-weight: 700;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.patients-table-card td {
+  color: #020617;
+  padding: 16px 10px;
+}
+
+.empty-text {
+  color: #6b7280;
+  padding: 24px 0;
+}
+
+/* ===== Action Group ===== */
+.action-group {
+  display: flex;
+  gap: 10px;
+}
+/* ================= PAGE BACKGROUND ================= */
+body {
+  background: linear-gradient(180deg, #020617, #0b132b);
+}
+
+/* ================= HEADER ================= */
+.pm-header {
+  background: #e5e7eb;
+  border-radius: 18px;
+  padding: 28px;
+  margin-bottom: 28px;
+}
+
+.pm-header h2 {
+  margin: 0;
+  font-weight: 800;
+  color: #0b132b;
+}
+
+.pm-header p {
+  margin-top: 6px;
+  color: #6b7280;
+}
+
+/* ================= ADD PATIENT ================= */
+.pm-add-card {
+  background: #f5f5dc;
+  border-radius: 18px;
+  padding: 28px;
+  margin-bottom: 28px;
+}
+
+.pm-add-card h4 {
+  font-weight: 700;
+  color: #0b132b;
+}
+
+.pm-add-card label {
+  font-weight: 600;
+  color: #0b132b;
+}
+
+.pm-add-card input {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+/* ================= TABLE ================= */
+.pm-table-card {
+  background: #e5e7eb;
+  border-radius: 18px;
+  padding: 24px;
+}
+
+.pm-table-card th {
+  font-weight: 700;
+  color: #0b132b;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.pm-table-card td {
+  padding: 14px 10px;
+  color: #020617;
+}
+
+.pm-empty {
+  padding: 24px 0;
+  color: #6b7280;
+}
+
+/* ================= BUTTONS ================= */
+.pm-primary-btn {
+  background: #0b132b;
+  color: #f5f5dc;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: 700;
+}
+
+.pm-primary-btn:hover {
+  background: #020617;
+}
+
+.pm-secondary-btn {
+  background: #f5f5dc;
+  color: #0b132b;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 600;
+}
+
+.pm-secondary-btn:hover {
+  background: #e5e7eb;
+}
+
+/* ================= ACTION GROUP ================= */
+.pm-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+/* ===== AUTH PAGES ===== */
+
+.auth-container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #020617, #0b132b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-card {
+  width: 380px;
+  background: #f5f5dc;
+  border-radius: 20px;
+  padding: 36px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+.brand-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0b132b;
+  text-align: center;
+}
+
+.brand-subtitle {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+
+.auth-input {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.auth-input::placeholder {
+  color: #9ca3af;
+}
+
+.auth-primary-btn {
+  background: #0b132b;
+  color: #f5f5dc;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.auth-primary-btn:hover {
+  background: #020617;
+}
+
+.auth-footer {
+  margin-top: 18px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.auth-footer a {
+  color: #0b132b;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+table tbody tr:hover {
+  background-color: #f1f5f9 !important;
+}
+
+.badge {
+  border: none !important;
+}
