@@ -1,127 +1,112 @@
 import Layout from "../components/layout/Layout";
 import { Card, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { Pie } from "react-chartjs-2";
+import { motion } from "framer-motion";
 
 export default function DashboardPage() {
+  const analyticsData = {
+    labels: ["Viral", "Bacterial", "Sepsis Risk"],
+    datasets: [
+      {
+        data: [55, 30, 15],
+        backgroundColor: ["#1e3a8a", "#64748b", "#b91c1c"],
+        borderWidth: 0,
+      },
+    ],
+  };
+
   return (
     <Layout>
-      {/* Header */}
-      <div
-        className="glass-card p-4 mb-5"
-        style={{
-          background: "linear-gradient(135deg, #0b132b, #111827)",
-        }}
+      {/* ================= HEADER ================= */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="glass-card p-4 mb-4 dashboard-header"
       >
-        <h2 style={{ color: "#f5f5dc", fontWeight: 800 }}>
-          ClinDx <span style={{ color: "#e5e7eb" }}>AI</span>
+        <h2>
+          ClinDx <span>AI</span>
         </h2>
-        <p style={{ color: "#d1d5db", marginTop: "8px" }}>
-          Intelligent clinical decision support powered by machine learning
+        <p>
+          ClinDx AI assists clinicians by combining patient symptoms, vitals,
+          lab values, and advanced machine learning models to provide early
+          diagnostic insights and risk stratification.
         </p>
-      </div>
+      </motion.div>
 
-      {/* Cards */}
+      {/* ================= INFO SECTION ================= */}
+      <Row className="mb-4">
+        <Col md={8}>
+          <Card className="dashboard-info-card p-4">
+            <h5>How ClinDx AI Works</h5>
+            <p>
+              The system evaluates patient-reported symptoms, vital signs, and
+              lab investigations using ensemble machine learning models.
+              Natural language models add contextual understanding while
+              preserving clinical safety.
+            </p>
+            <p className="mb-0">
+              This tool is intended for <strong>clinical decision support</strong>
+              and does not replace professional medical judgment.
+            </p>
+          </Card>
+        </Col>
+
+        <Col md={4}>
+          <Card className="dashboard-info-card p-4 text-center">
+            <h6 className="mb-3">Diagnosis Distribution</h6>
+            <Pie data={analyticsData} />
+          </Card>
+        </Col>
+      </Row>
+
+      {/* ================= MAIN ACTION CARDS ================= */}
       <Row className="g-4">
-        {/* Patients */}
-        <Col md={4}>
-          <Card
-            style={{
-              background: "#e5e7eb",
-              borderRadius: "16px",
-              border: "none",
-              height: "100%",
-            }}
-            className="p-4"
-          >
-            <h5 style={{ fontWeight: 700, color: "#0b132b" }}>
-              Patients
-            </h5>
-            <p style={{ color: "#374151" }}>
-              Manage patient records
-            </p>
-
-            <Link to="/patients">
-              <Button
-                style={{
-                  background: "#f5f5dc",
-                  border: "none",
-                  color: "#0b132b",
-                  fontWeight: 600,
-                }}
-                className="w-100 dashboard-btn"
-              >
-                View Patients
-              </Button>
-            </Link>
-          </Card>
-        </Col>
-
-        {/* Evaluation */}
-        <Col md={4}>
-          <Card
-            style={{
-              background: "#e5e7eb",
-              borderRadius: "16px",
-              border: "none",
-              height: "100%",
-            }}
-            className="p-4"
-          >
-            <h5 style={{ fontWeight: 700, color: "#0b132b" }}>
-              New Evaluation
-            </h5>
-            <p style={{ color: "#374151" }}>
-              Run a new AI diagnosis
-            </p>
-
-            <Link to="/patients">
-              <Button
-                style={{
-                  background: "#f5f5dc",
-                  border: "none",
-                  color: "#0b132b",
-                  fontWeight: 600,
-                }}
-                className="w-100 dashboard-btn"
-              >
-                Start Evaluation
-              </Button>
-            </Link>
-          </Card>
-        </Col>
-
-        {/* Insights */}
-        <Col md={4}>
-          <Card
-            style={{
-              background: "#e5e7eb",
-              borderRadius: "16px",
-              border: "none",
-              height: "100%",
-            }}
-            className="p-4"
-          >
-            <h5 style={{ fontWeight: 700, color: "#0b132b" }}>
-              AI Insights
-            </h5>
-            <p style={{ color: "#374151" }}>
-              Confidence-based analytics
-            </p>
-
-            <Button
-              disabled
-              style={{
-                background: "#d1d5db",
-                border: "none",
-                color: "#6b7280",
-                fontWeight: 600,
-              }}
-              className="w-100"
+        {[
+          {
+            title: "Patients",
+            text: "Manage patient records and view history",
+            link: "/patients",
+            btn: "View Patients",
+          },
+          {
+            title: "New Evaluation",
+            text: "Run an AI-powered diagnosis",
+            link: "/patients",
+            btn: "Start Evaluation",
+          },
+          {
+            title: "AI Insights",
+            text: "Advanced confidence-based analytics",
+            disabled: true,
+            btn: "Coming Soon",
+          },
+        ].map((card, i) => (
+          <Col md={4} key={i}>
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.2 }}
             >
-              Coming Soon
-            </Button>
-          </Card>
-        </Col>
+              <Card className="dashboard-action-card p-4">
+                <h5>{card.title}</h5>
+                <p>{card.text}</p>
+
+                {card.disabled ? (
+                  <Button disabled className="w-100 dashboard-disabled-btn">
+                    {card.btn}
+                  </Button>
+                ) : (
+                  <Link to={card.link}>
+                    <Button className="w-100 dashboard-primary-btn">
+                      {card.btn}
+                    </Button>
+                  </Link>
+                )}
+              </Card>
+            </motion.div>
+          </Col>
+        ))}
       </Row>
     </Layout>
   );

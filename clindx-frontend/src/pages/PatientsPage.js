@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { Table, Button, Form, Row, Col } from "react-bootstrap";
+import { Table, Button, Form, Row, Col, Modal } from "react-bootstrap";
 import Layout from "../components/layout/Layout";
-import { getPatients, addPatient } from "../api/patientApi";
+import { getPatients, addPatient, deletePatient } from "../api/patientApi";
 import { Link } from "react-router-dom";
 
 export default function PatientsPage() {
   const [patients, setPatients] = useState([]);
   const [form, setForm] = useState({});
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   const load = async () => {
     const res = await getPatients();
@@ -16,6 +17,13 @@ export default function PatientsPage() {
   const submit = async () => {
     await addPatient(form);
     setForm({});
+    load();
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    await deletePatient(deleteTarget.id);
+    setDeleteTarget(null);
     load();
   };
 
@@ -85,7 +93,7 @@ export default function PatientsPage() {
               <th>Name</th>
               <th>Age</th>
               <th>Gender</th>
-              <th style={{ width: "260px" }}>Actions</th>
+              <th style={{ width: "300px" }}>Actions</th>
             </tr>
           </thead>
 
@@ -122,6 +130,13 @@ export default function PatientsPage() {
                         Evaluate
                       </button>
                     </Link>
+
+                    <button
+                      className="pm-danger-btn"
+                      onClick={() => setDeleteTarget(p)}
+                    >
+                      Delete
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -129,6 +144,36 @@ export default function PatientsPage() {
           </tbody>
         </Table>
       </div>
+
+      {/* ================= DELETE CONFIRM MODAL ================= */}
+      <Modal
+        show={!!deleteTarget}
+        onHide={() => setDeleteTarget(null)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Patient</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          Are you sure you want to delete{" "}
+          <strong>{deleteTarget?.name}</strong>?  
+          <br />
+          This action cannot be undone.
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setDeleteTarget(null)}
+          >
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Layout>
   );
 }
