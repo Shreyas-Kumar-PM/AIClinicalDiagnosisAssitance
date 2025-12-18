@@ -17,7 +17,7 @@ def health():
 @app.post("/predict")
 def run_prediction(req: DiagnosisRequest):
     return predict(
-        symptoms=req.symptoms,
+        symptoms=req.symptoms,   # ✅ FIXED
         vitals=req.vitals,
         labs=req.labs
     )
