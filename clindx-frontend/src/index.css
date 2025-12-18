@@ -529,3 +529,14 @@ table tbody tr:hover {
 .badge {
   border: none !important;
 }
+.soft-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.glass-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+}

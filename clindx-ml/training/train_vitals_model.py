@@ -6,7 +6,9 @@ from sklearn.metrics import classification_report
 
 df = pd.read_csv("data/vitals/vitals.csv")
 
-X = df[["temp", "hr", "bp_sys", "spo2"]]
+FEATURES = ["temp", "hr", "bp_sys", "spo2"]
+
+X = df[FEATURES]
 y = df["high_risk"]
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -20,3 +22,4 @@ preds = model.predict(X_test)
 print(classification_report(y_test, preds))
 
 joblib.dump(model, "models/vitals_model.pkl")
+joblib.dump(FEATURES, "models/vitals_features.pkl")
