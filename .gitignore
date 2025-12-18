@@ -24,3 +24,6 @@ db/*.sqlite3
 dist/
 build/
 
+# Large ML assets
+clindx-ml/data/symptoms/*.csv
+clindx-ml/models/*.pkl
