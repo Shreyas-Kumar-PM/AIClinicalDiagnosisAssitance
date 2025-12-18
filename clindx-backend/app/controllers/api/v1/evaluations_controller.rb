@@ -16,9 +16,18 @@ class Api::V1::EvaluationsController < ApplicationController
     )
 
     begin
-      # ✅ NORMALIZE PAYLOAD FOR ML
+      # ------------------------------------
+      # ✅ HARD NORMALIZATION (NO MORE BUGS)
+      # ------------------------------------
+      symptoms =
+        if evaluation.symptoms.is_a?(String)
+          JSON.parse(evaluation.symptoms)
+        else
+          evaluation.symptoms
+        end
+
       payload = {
-        symptoms: Array(evaluation.symptoms),
+        symptoms: symptoms, # ✅ ALWAYS Array<String>
         vitals: [
           evaluation.vitals["temp"],
           evaluation.vitals["hr"],
@@ -32,7 +41,7 @@ class Api::V1::EvaluationsController < ApplicationController
         ]
       }
 
-      Rails.logger.info("ML PAYLOAD => #{payload}")
+      Rails.logger.info("ML PAYLOAD => #{payload.inspect}")
 
       response = Faraday.post(
         "http://127.0.0.1:8000/predict",

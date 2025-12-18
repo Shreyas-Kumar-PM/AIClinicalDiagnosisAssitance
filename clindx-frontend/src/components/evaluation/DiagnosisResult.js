@@ -2,9 +2,15 @@ import { Card, Badge, Row, Col, Alert } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 
 export default function DiagnosisResult({ result }) {
-  if (!result || !result.top_diagnoses) return null;
+  if (!result || !result.top_diagnoses || !result.model_outputs) {
+    return null;
+  }
 
-  // ✅ USE REAL CONFIDENCE VALUES
+  const hf = result.model_outputs.hf_analysis;
+
+  // -------------------------
+  // Chart data
+  // -------------------------
   const data = {
     labels: result.top_diagnoses.map((d) => d.name),
     datasets: [
@@ -43,10 +49,18 @@ export default function DiagnosisResult({ result }) {
     },
   };
 
+  // -------------------------
+  // SAFE NLP TEXT (NOW WORKS)
+  // -------------------------
+  const patientContext =
+    typeof hf?.hf_summary === "string" && hf.hf_summary.trim().length > 0
+      ? hf.hf_summary
+      : null;
+
   return (
     <Card className="glass-card p-4 mt-4">
       {/* HEADER */}
-      <Row className="mb-3">
+      <Row className="mb-3 align-items-center">
         <Col>
           <h4>
             Diagnosis{" "}
@@ -65,7 +79,7 @@ export default function DiagnosisResult({ result }) {
       {/* PRIMARY INFO */}
       <Row className="mb-3">
         <Col md={6}>
-          <p className="mb-1">
+          <p className="mb-1 text-muted">
             <strong>Primary Diagnosis</strong>
           </p>
           <h5 style={{ color: result.high_risk ? "#ef4444" : "#22c55e" }}>
@@ -74,20 +88,18 @@ export default function DiagnosisResult({ result }) {
         </Col>
 
         <Col md={6}>
-          <p className="mb-1">
+          <p className="mb-1 text-muted">
             <strong>High Risk Status</strong>
           </p>
-          {result.high_risk ? (
-            <Badge bg="danger">YES</Badge>
-          ) : (
-            <Badge bg="success">NO</Badge>
-          )}
+          <Badge bg={result.high_risk ? "danger" : "success"}>
+            {result.high_risk ? "YES" : "NO"}
+          </Badge>
         </Col>
       </Row>
 
-      {/* HIGH RISK WARNING */}
+      {/* ALERT */}
       {result.high_risk && (
-        <Alert variant="danger" className="mt-2">
+        <Alert variant="danger">
           ⚠️ <strong>Critical condition detected.</strong> Immediate medical
           attention is recommended.
         </Alert>
@@ -95,52 +107,92 @@ export default function DiagnosisResult({ result }) {
 
       {/* CHART */}
       <div className="mt-4">
-        <h6 style={{ color: "#64748b" }} className="mb-3">
+        <h6 className="text-secondary mb-3">
           Diagnostic Confidence Distribution
         </h6>
         <Bar data={data} options={options} />
       </div>
 
-      {/* MODEL OUTPUTS */}
-      {result.model_outputs && (
+      {/* CLASSICAL ML OUTPUTS */}
+      <div className="mt-4">
+        <h6 className="text-secondary">Classical ML Model Insights</h6>
+
+        <Row className="mt-3">
+          <Col md={4}>
+            <Card className="p-3 soft-card">
+              <strong>Symptoms Model</strong>
+              <p className="mb-0 text-muted">
+                Prediction:{" "}
+                <span style={{ color: "#6366f1" }}>
+                  {result.model_outputs.classical_symptom_prediction}
+                </span>
+              </p>
+            </Card>
+          </Col>
+
+          <Col md={4}>
+            <Card className="p-3 soft-card">
+              <strong>Vitals Risk</strong>
+              <p className="mb-0 text-muted">
+                {Math.round(
+                  result.model_outputs.vitals_risk_probability * 100
+                )}
+                %
+              </p>
+            </Card>
+          </Col>
+
+          <Col md={4}>
+            <Card className="p-3 soft-card">
+              <strong>Lab Risk</strong>
+              <p className="mb-0 text-muted">
+                {Math.round(
+                  result.model_outputs.lab_risk_probability * 100
+                )}
+                %
+              </p>
+            </Card>
+          </Col>
+        </Row>
+      </div>
+
+      {/* NLP REPORT */}
+      {hf && (
         <div className="mt-4">
-          <h6 style={{ color: "#64748b" }}>AI Model Insights</h6>
+          <h6 className="text-secondary">
+            Clinical Language Model (NLP) Report
+          </h6>
 
-          <Row className="mt-3">
-            <Col md={4}>
-              <Card className="p-3 soft-card">
-                <strong>Symptoms Model</strong>
-                <p className="mb-0 text-muted">
-                  Predicted:{" "}
-                  <span style={{ color: "#6366f1" }}>
-                    {result.model_outputs.symptom_prediction}
-                  </span>
+          <Card className="p-4 soft-card mt-2">
+            {patientContext && (
+              <>
+                <p className="mb-2">
+                  <strong>Patient Presents With</strong>
                 </p>
-              </Card>
-            </Col>
+                <p className="text-muted mb-3">
+                  {patientContext}
+                </p>
+              </>
+            )}
 
-            <Col md={4}>
-              <Card className="p-3 soft-card">
-                <strong>Vitals Risk</strong>
-                <p className="mb-0 text-muted">
-                  {(result.model_outputs.vitals_risk_probability * 100).toFixed(
-                    0
-                  )}
-                  %
-                </p>
-              </Card>
-            </Col>
+            <Row>
+              <Col md={6}>
+                <Badge bg="info">
+                  Model: {hf.hf_model}
+                </Badge>
+              </Col>
+              <Col md={6} className="text-end">
+                <Badge bg="secondary">
+                  NLP Signal Strength: {hf.hf_confidence.toFixed(2)}
+                </Badge>
+              </Col>
+            </Row>
 
-            <Col md={4}>
-              <Card className="p-3 soft-card">
-                <strong>Lab Risk</strong>
-                <p className="mb-0 text-muted">
-                  {(result.model_outputs.lab_risk_probability * 100).toFixed(0)}
-                  %
-                </p>
-              </Card>
-            </Col>
-          </Row>
+            <p className="mt-3 text-muted" style={{ fontSize: "0.85rem" }}>
+              ℹ️ NLP output provides contextual understanding only and does not
+              influence the final diagnosis.
+            </p>
+          </Card>
         </div>
       )}
     </Card>
