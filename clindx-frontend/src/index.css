@@ -540,3 +540,88 @@ table tbody tr:hover {
   border-radius: 16px;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
 }
+.pm-danger-btn {
+  background: #7f1d1d;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.pm-danger-btn:hover {
+  background: #991b1b;
+}
+/* ================= DASHBOARD ================= */
+
+.dashboard-header {
+  background: linear-gradient(135deg, #0b132b, #111827);
+  border-radius: 18px;
+}
+
+.dashboard-header h2 {
+  color: #f5f5dc;
+  font-weight: 800;
+}
+
+.dashboard-header h2 span {
+  color: #e5e7eb;
+}
+
+.dashboard-header p {
+  color: #d1d5db;
+  margin-top: 8px;
+  max-width: 700px;
+}
+
+.dashboard-info-card {
+  background: #f8fafc;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.dashboard-info-card h5,
+.dashboard-info-card h6 {
+  color: #0b132b;
+  font-weight: 700;
+}
+
+.dashboard-info-card p {
+  color: #374151;
+}
+
+.dashboard-action-card {
+  background: #e5e7eb;
+  border-radius: 16px;
+  border: none;
+  height: 100%;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+}
+
+.dashboard-action-card h5 {
+  color: #0b132b;
+  font-weight: 700;
+}
+
+.dashboard-action-card p {
+  color: #374151;
+}
+
+.dashboard-primary-btn {
+  background: #f5f5dc;
+  border: none;
+  color: #0b132b;
+  font-weight: 600;
+}
+
+.dashboard-primary-btn:hover {
+  background: #ede9c8;
+}
+
+.dashboard-disabled-btn {
+  background: #d1d5db;
+  border: none;
+  color: #6b7280;
+  font-weight: 600;
+}

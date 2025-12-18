@@ -1,0 +1,322 @@
+disease,symptom
+Fungal Infection,itching
+Fungal Infection,skinrash
+Fungal Infection,nodalskineruptions
+Fungal Infection,dischromic_patches
+Allergy,continuoussneezing
+Allergy,shivering
+Allergy,chills
+Allergy,wateringfromeyes
+Gerd,stomachpain
+Gerd,acidity
+Gerd,ulcersontongue
+Gerd,vomiting
+Gerd,cough
+Gerd,chestpain
+Chronic Cholestasis,itching
+Chronic Cholestasis,vomiting
+Chronic Cholestasis,yellowishskin
+Chronic Cholestasis,nausea
+Chronic Cholestasis,lossofappetite
+Chronic Cholestasis,abdominalpain
+Chronic Cholestasis,yellowingofeyes
+Drug Reaction,itching
+Drug Reaction,skinrash
+Drug Reaction,stomachpain
+Drug Reaction,burningmicturition
+Drug Reaction,spotting_urination
+Peptic Ulcer Diseae,vomiting
+Peptic Ulcer Diseae,lossofappetite
+Peptic Ulcer Diseae,abdominalpain
+Peptic Ulcer Diseae,passageofgases
+Peptic Ulcer Diseae,internalitching
+Peptic Ulcer Diseae,indigestion
+Aids,musclewasting
+Aids,patchesinthroat
+Aids,highfever
+Aids,extramaritalcontacts
+Diabetes,fatigue
+Diabetes,weightloss
+Diabetes,restlessness
+Diabetes,lethargy
+Diabetes,irregularsugarlevel
+Diabetes,blurredanddistortedvision
+Diabetes,obesity
+Diabetes,excessivehunger
+Diabetes,increasedappetite
+Diabetes,polyuria
+Gastroenteritis,vomiting
+Gastroenteritis,sunkeneyes
+Gastroenteritis,dehydration
+Gastroenteritis,diarrhoea
+Bronchial Asthma,fatigue
+Bronchial Asthma,cough
+Bronchial Asthma,highfever
+Bronchial Asthma,breathlessness
+Bronchial Asthma,familyhistory
+Bronchial Asthma,mucoidsputum
+Hypertension,headache
+Hypertension,chestpain
+Hypertension,dizziness
+Hypertension,lossofbalance
+Hypertension,lackofconcentration
+Migraine,acidity
+Migraine,indigestion
+Migraine,headache
+Migraine,blurredanddistortedvision
+Migraine,excessivehunger
+Migraine,stiffneck
+Migraine,depression
+Migraine,irritability
+Migraine,visualdisturbances
+Cervical Spondylosis,backpain
+Cervical Spondylosis,weaknessinlimbs
+Cervical Spondylosis,neckpain
+Cervical Spondylosis,dizziness
+Cervical Spondylosis,lossofbalance
+Paralysis (Brain Hemorrhage),vomiting
+Paralysis (Brain Hemorrhage),headache
+Paralysis (Brain Hemorrhage),weaknessofonebodyside
+Paralysis (Brain Hemorrhage),alteredsensorium
+Jaundice,itching
+Jaundice,vomiting
+Jaundice,fatigue
+Jaundice,weightloss
+Jaundice,highfever
+Jaundice,yellowishskin
+Jaundice,darkurine
+Jaundice,abdominalpain
+Malaria,chills
+Malaria,vomiting
+Malaria,highfever
+Malaria,sweating
+Malaria,headache
+Malaria,nausea
+Malaria,musclepain
+Malaria,diarrhoea
+Chicken Pox,itching
+Chicken Pox,skinrash
+Chicken Pox,fatigue
+Chicken Pox,lethargy
+Chicken Pox,highfever
+Chicken Pox,headache
+Chicken Pox,lossofappetite
+Chicken Pox,mildfever
+Chicken Pox,swelledlymphnodes
+Chicken Pox,malaise
+Chicken Pox,redspotsoverbody
+Dengue,skinrash
+Dengue,chills
+Dengue,jointpain
+Dengue,vomiting
+Dengue,fatigue
+Dengue,highfever
+Dengue,headache
+Dengue,nausea
+Dengue,lossofappetite
+Dengue,painbehindtheeyes
+Dengue,backpain
+Dengue,musclepain
+Dengue,redspotsoverbody
+Dengue,malaise
+Typhoid,chills
+Typhoid,vomiting
+Typhoid,fatigue
+Typhoid,highfever
+Typhoid,nausea
+Typhoid,constipation
+Typhoid,abdominalpain
+Typhoid,diarrhoea
+Typhoid,toxiclooktyphos
+Typhoid,bellypain
+Typhoid,headache
+Hepatitis A,jointpain
+Hepatitis A,vomiting
+Hepatitis A,yellowishskin
+Hepatitis A,darkurine
+Hepatitis A,nausea
+Hepatitis A,lossofappetite
+Hepatitis A,abdominalpain
+Hepatitis A,diarrhoea
+Hepatitis A,mildfever
+Hepatitis A,yellowingofeyes
+Hepatitis A,musclepain
+Hepatitis B,itching
+Hepatitis B,fatigue
+Hepatitis B,lethargy
+Hepatitis B,yellowishskin
+Hepatitis B,darkurine
+Hepatitis B,lossofappetite
+Hepatitis B,abdominalpain
+Hepatitis B,yellowurine
+Hepatitis B,yellowingofeyes
+Hepatitis B,malaise
+Hepatitis B,receivingbloodtransfusion
+Hepatitis B,receivingunsterileinjections
+Hepatitis C,fatigue
+Hepatitis C,yellowishskin
+Hepatitis C,nausea
+Hepatitis C,lossofappetite
+Hepatitis C,familyhistory
+Hepatitis C,yellowingofeyes
+Hepatitis D,jointpain
+Hepatitis D,vomiting
+Hepatitis D,fatigue
+Hepatitis D,yellowishskin
+Hepatitis D,darkurine
+Hepatitis D,nausea
+Hepatitis D,lossofappetite
+Hepatitis D,abdominalpain
+Hepatitis D,yellowingofeyes
+Hepatitis E,jointpain
+Hepatitis E,vomiting
+Hepatitis E,fatigue
+Hepatitis E,highfever
+Hepatitis E,yellowishskin
+Hepatitis E,darkurine
+Hepatitis E,nausea
+Hepatitis E,lossofappetite
+Hepatitis E,abdominalpain
+Hepatitis E,yellowingofeyes
+Hepatitis E,coma
+Hepatitis E,stomachbleeding
+Hepatitis E,acuteliverfailure
+Alcoholic Hepatitis,vomiting
+Alcoholic Hepatitis,yellowishskin
+Alcoholic Hepatitis,abdominalpain
+Alcoholic Hepatitis,swellingofstomach
+Alcoholic Hepatitis,distentionofabdomen
+Alcoholic Hepatitis,historyofalcoholconsumption
+Alcoholic Hepatitis,fluidoverload
+Tuberculosis,chills
+Tuberculosis,vomiting
+Tuberculosis,fatigue
+Tuberculosis,weightloss
+Tuberculosis,cough
+Tuberculosis,highfever
+Tuberculosis,breathlessness
+Tuberculosis,sweating
+Tuberculosis,lossofappetite
+Tuberculosis,mildfever
+Tuberculosis,yellowingofeyes
+Tuberculosis,swelledlymphnodes
+Tuberculosis,malaise
+Tuberculosis,phlegm
+Tuberculosis,chestpain
+Tuberculosis,bloodinsputum
+Common Cold,continuoussneezing
+Common Cold,chills
+Common Cold,fatigue
+Common Cold,cough
+Common Cold,highfever
+Common Cold,headache
+Common Cold,swelledlymphnodes
+Common Cold,malaise
+Common Cold,phlegm
+Common Cold,throatirritation
+Common Cold,rednessofeyes
+Common Cold,sinuspressure
+Common Cold,runnynose
+Common Cold,congestion
+Common Cold,chestpain
+Common Cold,lossofsmell
+Common Cold,musclepain
+Pneumonia,chills
+Pneumonia,fatigue
+Pneumonia,cough
+Pneumonia,highfever
+Pneumonia,breathlessness
+Pneumonia,sweating
+Pneumonia,malaise
+Pneumonia,chestpain
+Pneumonia,fastheartrate
+Pneumonia,rustysputum
+Pneumonia,phlegm
+Dimorphic Hemmorhoids(Piles),constipation
+Dimorphic Hemmorhoids(Piles),painduringbowelmovements
+Dimorphic Hemmorhoids(Piles),paininanalregion
+Dimorphic Hemmorhoids(Piles),bloodystool
+Dimorphic Hemmorhoids(Piles),irritationinanus
+Heart Attack,vomiting
+Heart Attack,breathlessness
+Heart Attack,sweating
+Heart Attack,chestpain
+Varicose Veins,fatigue
+Varicose Veins,cramps
+Varicose Veins,bruising
+Varicose Veins,obesity
+Varicose Veins,swollenlegs
+Varicose Veins,swollenbloodvessels
+Varicose Veins,prominentveinsoncalf
+Hypothyroidism,fatigue
+Hypothyroidism,weightgain
+Hypothyroidism,coldhandsandfeets
+Hypothyroidism,moodswings
+Hypothyroidism,lethargy
+Hypothyroidism,dizziness
+Hypothyroidism,puffyfaceandeyes
+Hypothyroidism,enlargedthyroid
+Hypothyroidism,brittlenails
+Hypothyroidism,swollenextremeties
+Hypothyroidism,depression
+Hypothyroidism,irritability
+Hypothyroidism,abnormalmenstruation
+Hyperthyroidism,fatigue
+Hyperthyroidism,moodswings
+Hyperthyroidism,weightloss
+Hyperthyroidism,restlessness
+Hyperthyroidism,sweating
+Hyperthyroidism,diarrhoea
+Hyperthyroidism,fastheartrate
+Hyperthyroidism,excessivehunger
+Hyperthyroidism,muscleweakness
+Hyperthyroidism,irritability
+Hyperthyroidism,abnormalmenstruation
+Hypoglycemia,vomiting
+Hypoglycemia,fatigue
+Hypoglycemia,anxiety
+Hypoglycemia,sweating
+Hypoglycemia,headache
+Hypoglycemia,nausea
+Hypoglycemia,blurredanddistortedvision
+Hypoglycemia,excessivehunger
+Hypoglycemia,slurredspeech
+Hypoglycemia,irritability
+Hypoglycemia,palpitations
+Hypoglycemia,dryingandtinglinglips
+Osteoarthristis,jointpain
+Osteoarthristis,neckpain
+Osteoarthristis,kneepain
+Osteoarthristis,hipjointpain
+Osteoarthristis,swellingjoints
+Osteoarthristis,painfulwalking
+Arthritis,muscleweakness
+Arthritis,stiffneck
+Arthritis,swellingjoints
+Arthritis,movementstiffness
+Arthritis,painfulwalking
+(Vertigo) Paroymsal  Positional Vertigo,vomiting
+(Vertigo) Paroymsal  Positional Vertigo,headache
+(Vertigo) Paroymsal  Positional Vertigo,nausea
+(Vertigo) Paroymsal  Positional Vertigo,spinningmovements
+(Vertigo) Paroymsal  Positional Vertigo,lossofbalance
+(Vertigo) Paroymsal  Positional Vertigo,unsteadiness
+Acne,skinrash
+Acne,pusfilledpimples
+Acne,blackheads
+Acne,scurring
+Urinary Tract Infection,burningmicturition
+Urinary Tract Infection,bladderdiscomfort
+Urinary Tract Infection,foulsmellof_urine
+Urinary Tract Infection,continuousfeelofurine
+Psoriasis,skinrash
+Psoriasis,jointpain
+Psoriasis,skinpeeling
+Psoriasis,silverlikedusting
+Psoriasis,smalldentsinnails
+Psoriasis,inflammatorynails
+Impetigo,skinrash
+Impetigo,highfever
+Impetigo,blister
+Impetigo,redsorearoundnose
+Impetigo,yellowcrustooze
