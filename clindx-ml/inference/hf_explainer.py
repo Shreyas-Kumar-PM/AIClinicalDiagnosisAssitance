@@ -1,32 +1,57 @@
 from transformers import pipeline
 
+
 class HFDiagnosisExplainer:
     """
-    Generates a patient-friendly medical explanation.
-    Does NOT affect diagnosis logic.
+    Generates a short, patient-friendly clinical explanation.
+    This module is CONTEXT-ONLY and does NOT affect diagnosis logic.
     """
 
     def __init__(self):
         self.enabled = True
         try:
             self.generator = pipeline(
-                "text2text-generation",
+                task="text2text-generation",
                 model="google/flan-t5-base",
-                max_length=180
+                max_length=160,
+                repetition_penalty=1.6,
+                do_sample=False
             )
         except Exception as e:
             print("⚠️ HF Explainer disabled:", e)
             self.enabled = False
 
-    def explain(self, diagnosis: str, risk_score: float) -> str | None:
+    def explain(
+        self,
+        diagnosis: str,
+        risk_score: float,
+        symptoms: list[str]
+    ) -> str | None:
         if not self.enabled:
             return None
 
-        prompt = (
-            f"Explain the medical diagnosis '{diagnosis}' to a patient. "
-            f"The risk score is {round(risk_score * 100)} percent. "
-            f"Use simple, calm, professional medical language."
+        symptom_text = ", ".join(symptoms) if symptoms else "reported symptoms"
+
+        risk_label = (
+            "high"
+            if risk_score >= 0.8
+            else "moderate"
+            if risk_score >= 0.4
+            else "low"
         )
 
-        output = self.generator(prompt)
-        return output[0]["generated_text"]
+        prompt = f"""
+You are a clinical decision support system.
+
+Diagnosis: {diagnosis}
+Risk level: {risk_label}
+Patient symptoms: {symptom_text}
+
+Write a clear, calm explanation for a patient in 3–4 sentences.
+Explain why this diagnosis was suggested based on symptoms and risk.
+Do NOT repeat phrases.
+Do NOT give treatment or medical advice.
+"""
+
+        output = self.generator(prompt)[0]["generated_text"]
+        return output.strip()

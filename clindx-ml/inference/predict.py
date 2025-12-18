@@ -48,7 +48,7 @@ encoder_vocab = list(symptom_encoder.classes_)
 encoder_index = {s: i for i, s in enumerate(encoder_vocab)}
 
 # -------------------------------------------------
-# HF EXPLAINER (ONE INSTANCE)
+# HF EXPLAINER (SINGLE INSTANCE)
 # -------------------------------------------------
 hf_explainer = HFDiagnosisExplainer()
 
@@ -90,13 +90,13 @@ def predict(symptoms, vitals, labs):
     symptom_pred = symptom_model.predict(symptom_vector)[0]
 
     # -----------------------------
-    # VITALS (DataFrame = no warnings)
+    # VITALS
     # -----------------------------
     vitals_df = pd.DataFrame([vitals], columns=vitals_features)
     vitals_prob = float(vitals_model.predict_proba(vitals_df)[0][1])
 
     # -----------------------------
-    # LABS (DataFrame = no warnings)
+    # LABS
     # -----------------------------
     labs_df = pd.DataFrame([labs], columns=lab_features)
     lab_prob = float(lab_model.predict_proba(labs_df)[0][1])
@@ -120,13 +120,15 @@ def predict(symptoms, vitals, labs):
     # HF CONTEXT + EXPLANATION
     # -----------------------------
     hf_context = hf_symptom_analysis(symptoms)
+
     hf_explanation = hf_explainer.explain(
         diagnosis=diagnosis,
-        risk_score=avg_risk
+        risk_score=avg_risk,
+        symptoms=symptoms
     )
 
     # -----------------------------
-    # RESPONSE (FRONTEND SAFE)
+    # RESPONSE
     # -----------------------------
     return {
         "primary_diagnosis": diagnosis,
