@@ -17,6 +17,9 @@ Rails.application.routes.draw do
         resources :evaluations, only: [:index, :show, :create]
       end
 
+      # ---------- WHAT-IF CLINICAL SIMULATOR (NEW) ----------
+      post "/simulator/what_if", to: "simulator#what_if"
+
     end
   end
 end

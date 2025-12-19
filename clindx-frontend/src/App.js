@@ -9,6 +9,7 @@ import EvaluationDetailPage from "./pages/EvaluationDetailPage";
 import PatientSummaryPage from "./pages/PatientSummaryPage";
 import AuditLogsPage from "./pages/AuditLogsPage";
 import ProfilePage from "./pages/ProfilePage";
+import WhatIfSimulatorPage from "./pages/WhatIfSimulatorPage"; // ✅ NEW
 
 export default function App() {
   return (
@@ -33,6 +34,12 @@ export default function App() {
         />
         <Route path="/audit-logs" element={<AuditLogsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+
+        {/* ✅ WHAT-IF CLINICAL SIMULATOR */}
+        <Route
+          path="/patients/:patientId/simulator"
+          element={<WhatIfSimulatorPage />}
+        />
       </Routes>
     </Router>
   );
