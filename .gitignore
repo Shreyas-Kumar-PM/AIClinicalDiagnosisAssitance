@@ -27,3 +27,9 @@ build/
 # Large ML assets
 clindx-ml/data/symptoms/*.csv
 clindx-ml/models/*.pkl
+
+# ===============================
+# Large ML datasets & models
+# ===============================
+clindx-ml/data/symptoms/disease_symptoms_mendeley.csv
+clindx-ml/models/symptom_ensemble_calibrated.pkl
