@@ -1,16 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { Card, Badge, Row, Col, Alert } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom"; // ✅ ADDED (ONLY IMPORT)
+import { Link } from "react-router-dom"; // ✅ ADDED
 
-/**
- * DiagnosisResult
- * - Existing logic untouched
- * - Clinical Summary Card added
- * - Risk Meter added (NEW)
- * - UX + visual polish
- * - Navy / beige / grey theme
- */
 export default function DiagnosisResult({ result }) {
   if (!result || !result.top_diagnoses || !result.model_outputs) {
     return null;
@@ -67,137 +60,33 @@ Overall clinical risk is assessed as ${riskLabel.toLowerCase()}.
 
   const options = {
     responsive: true,
-    animation: { duration: 900, easing: "easeOutQuart" },
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        backgroundColor: "#111827",
-        titleColor: "#f9fafb",
-        bodyColor: "#e5e7eb",
-        callbacks: {
-          label: (ctx) => `${ctx.raw}% confidence`,
-        },
-      },
-    },
+    plugins: { legend: { display: false } },
     scales: {
-      y: {
-        beginAtZero: true,
-        max: 100,
-        ticks: { color: "#6b7280", callback: (v) => `${v}%` },
-        grid: { color: "#e5e7eb" },
-      },
-      x: {
-        ticks: { color: "#374151" },
-        grid: { display: false },
-      },
+      y: { beginAtZero: true, max: 100 },
     },
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45 }}
-    >
-      <Card className="p-4 mt-4" style={{
-        background: "linear-gradient(180deg, #f8fafc, #f1f5f9)",
-        borderRadius: "18px",
-        border: "1px solid #e5e7eb",
-        boxShadow: "0 10px 30px rgba(15,23,42,0.08)",
-      }}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <Card className="p-4 mt-4">
 
-        {/* ================= CLINICAL SUMMARY ================= */}
-        <Card className="p-4 mb-4" style={{
-          background: "#fefce8",
-          borderRadius: "16px",
-          border: "1px solid #e5e7eb",
-        }}>
-          <h6 className="text-secondary mb-2">Clinical Summary</h6>
-          <p style={{ color: "#374151", lineHeight: 1.6 }}>
-            {clinicalSummary}
-          </p>
-          <Badge bg={
-            riskLabel === "High"
-              ? "danger"
-              : riskLabel === "Moderate"
-              ? "warning"
-              : "success"
-          }>
-            Overall Risk: {riskLabel}
-          </Badge>
-        </Card>
-
-        {/* ================= RISK METER ================= */}
-        <Card className="p-4 mb-4 text-center" style={{
-          background: "#f8fafc",
-          borderRadius: "16px",
-          border: "1px solid #e5e7eb",
-        }}>
-          <h6 className="text-secondary mb-3">Overall Risk Meter</h6>
-
-          <div style={{ position: "relative", width: 220, margin: "0 auto" }}>
-            <div style={{
-              width: 220,
-              height: 110,
-              borderTopLeftRadius: 220,
-              borderTopRightRadius: 220,
-              background:
-                "linear-gradient(90deg, #15803d, #f59e0b, #b91c1c)",
-            }} />
-
-            <motion.div
-              animate={{ rotate: needleRotation }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              style={{
-                position: "absolute",
-                width: 4,
-                height: 90,
-                background: "#0f172a",
-                bottom: 0,
-                left: "50%",
-                transformOrigin: "bottom center",
-              }}
-            />
-
-            <div style={{
-              position: "absolute",
-              width: 14,
-              height: 14,
-              background: "#0f172a",
-              borderRadius: "50%",
-              bottom: -7,
-              left: "50%",
-              transform: "translateX(-50%)",
-            }} />
-          </div>
-
-          <h5 className="mt-3" style={{ color: riskColor }}>
-            {riskScorePercent}% — {riskLabel} Risk
-          </h5>
-        </Card>
-
-        {/* ================= WHAT-IF SIMULATOR BUTTON (ONLY ADDITION) ================= */}
-        <div className="mt-4 text-end">
+        {/* 🔬 WHAT-IF SIMULATOR BUTTON */}
+        <div className="text-end mb-3">
           <Link to={`/patients/${result.patient_id}/simulator`}>
-            <button
-              style={{
-                background: "#1e3a8a",
-                color: "#f8fafc",
-                border: "none",
-                padding: "12px 20px",
-                borderRadius: "10px",
-                fontWeight: 600,
-                cursor: "pointer",
-              }}
-            >
-              🔬 What-If Clinical Simulator
+            <button className="btn btn-primary">
+              What-If Simulator
+            </button>
+          </Link>
+
+          {" "}
+
+          {/* 💊 TREATMENT RESPONSE BUTTON */}
+          <Link to={`/patients/${result.patient_id}/treatment`}>
+            <button className="btn btn-outline-primary">
+              Treatment Response
             </button>
           </Link>
         </div>
-
-        {/* ===== EVERYTHING BELOW IS UNCHANGED ===== */}
-        {/* HEADER, INFO, ALERT, CHART, ML OUTPUTS, AI EXPLANATION, NLP CONTEXT */}
-        {/* (Left exactly as you had it) */}
 {/* ================= HEADER ================= */}
 <Row className="mb-3 align-items-center">
           <Col>

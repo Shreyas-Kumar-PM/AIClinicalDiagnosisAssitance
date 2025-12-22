@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
 import api from "../api/axios";
-import { Card, Table, Badge } from "react-bootstrap";
+import { Card, Table, Badge, Button } from "react-bootstrap";
 
 export default function AuditLogsPage() {
   const [logs, setLogs] = useState([]);
@@ -27,16 +27,34 @@ export default function AuditLogsPage() {
         }}
       >
         {/* HEADER */}
-        <h3 style={{ color: "#0b132b", fontWeight: 700 }}>
-          Audit Logs
-        </h3>
-        <p style={{ color: "#6b7280", marginBottom: "1.5rem" }}>
-          System activity recorded for compliance and traceability
-        </p>
+        <div className="d-flex justify-content-between align-items-center">
+          <div>
+            <h3 style={{ color: "#0b132b", fontWeight: 700 }}>
+              Audit Logs
+            </h3>
+            <p style={{ color: "#6b7280", marginBottom: "1.5rem" }}>
+              System activity recorded for compliance and traceability
+            </p>
+          </div>
+
+          {/* ✅ CLEAR BUTTON (ONLY ADDITION) */}
+          <Button
+            variant="outline-danger"
+            onClick={() => setLogs([])}
+            style={{
+              borderRadius: "10px",
+              fontWeight: 600,
+            }}
+          >
+            Clear Logs
+          </Button>
+        </div>
 
         {/* CONTENT */}
         {loading ? (
           <p style={{ color: "#6b7280" }}>Loading logs...</p>
+        ) : logs.length === 0 ? (
+          <p style={{ color: "#6b7280" }}>No audit logs to display.</p>
         ) : (
           <Table responsive borderless hover>
             <thead

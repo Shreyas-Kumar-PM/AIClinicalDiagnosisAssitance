@@ -39,6 +39,15 @@ export default function Sidebar() {
           Patients
         </Nav.Link>
 
+        {/* ✅ NEW — Early Warning System */}
+        <Nav.Link
+          as={Link}
+          to="/early-warning"
+          style={{ color: "#e5e7eb", marginBottom: "12px" }}
+        >
+          Early Warning System
+        </Nav.Link>
+
         <Nav.Link
           as={Link}
           to="/audit-logs"
