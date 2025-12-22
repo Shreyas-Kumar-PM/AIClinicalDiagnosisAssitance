@@ -1,87 +1,80 @@
 module Api
-    module V1
-      class EarlyWarningController < ApplicationController
-        def index
-          patients = @current_doctor.patients
-  
-          results = patients.map do |patient|
-            evaluation = patient.evaluations.order(created_at: :desc).first
-  
-            if evaluation.nil?
-              {
-                patient_id: patient.id,
-                patient_name: patient.name,
-                score: 0,
-                risk_label: "Low",
-                triggers: [],
-                last_evaluation_at: nil
-              }
-            else
-              vitals = extract_vitals(evaluation)
-              score, triggers = compute_score(vitals)
-  
-              {
-                patient_id: patient.id,
-                patient_name: patient.name,
-                score: score,
-                risk_label: risk_label(score),
-                triggers: triggers,
-                last_evaluation_at: evaluation.created_at
-              }
-            end
+  module V1
+    class EarlyWarningController < ApplicationController
+      def index
+        patients = current_doctor.patients.includes(:evaluations)
+
+        data = patients.map do |patient|
+          eval = patient.evaluations.order(created_at: :desc).first
+
+          if eval.nil?
+            next build_empty(patient)
           end
-  
-          render json: results
+
+          diagnosis = eval.diagnosis || {}
+
+          score, triggers = compute_score(eval, diagnosis)
+
+          {
+            patient_id: patient.id,
+            patient_name: patient.name,
+            score: score,                       # 0–100
+            risk_label: risk_label(score),
+            triggers: triggers,
+            last_evaluation_at: eval.created_at
+          }
+        end.compact
+
+        render json: data
+      end
+
+      private
+
+      def build_empty(patient)
+        {
+          patient_id: patient.id,
+          patient_name: patient.name,
+          score: 0,
+          risk_label: "Low",
+          triggers: [],
+          last_evaluation_at: nil
+        }
+      end
+
+      def compute_score(eval, diagnosis)
+        score = 0
+        triggers = []
+
+        vitals = eval.vitals || {}
+
+        if vitals["spo2"].to_i < 92
+          score += 30
+          triggers << "Low oxygen saturation"
         end
-  
-        private
-  
-        # ✅ Safely extract vitals from evaluation JSON
-        def extract_vitals(evaluation)
-          evaluation.respond_to?(:vitals) && evaluation.vitals.is_a?(Hash) ?
-            evaluation.vitals :
-            {}
+
+        if vitals["hr"].to_i > 120
+          score += 20
+          triggers << "Tachycardia"
         end
-  
-        # ✅ Compute score safely and cap it
-        def compute_score(v)
-          score = 0
-          triggers = []
-  
-          if v["heart_rate"].to_i > 120
-            score += 20
-            triggers << "Elevated heart rate"
-          end
-  
-          if v["respiratory_rate"].to_i > 28
-            score += 20
-            triggers << "High respiratory rate"
-          end
-  
-          if v["spo2"].to_i > 0 && v["spo2"].to_i < 92
-            score += 30
-            triggers << "Low oxygen saturation"
-          end
-  
-          if v["systolic_bp"].to_i > 0 && v["systolic_bp"].to_i < 90
-            score += 20
-            triggers << "Low blood pressure"
-          end
-  
-          if v["temperature"].to_f > 39
-            score += 10
-            triggers << "High temperature"
-          end
-  
-          [ [score, 100].min, triggers ]
+
+        if vitals["temp"].to_f > 39
+          score += 15
+          triggers << "High fever"
         end
-  
-        def risk_label(score)
-          return "High" if score >= 70
-          return "Moderate" if score >= 40
-          "Low"
+
+        if diagnosis["high_risk"] == true
+          score += 35
+          triggers << "AI flagged high-risk diagnosis"
         end
+
+        [score.clamp(0, 100), triggers]
+      end
+
+      def risk_label(score)
+        return "High" if score >= 70
+        return "Moderate" if score >= 40
+        "Low"
       end
     end
   end
-  
+end
