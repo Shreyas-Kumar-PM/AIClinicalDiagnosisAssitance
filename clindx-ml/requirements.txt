@@ -5,3 +5,5 @@ pandas
 numpy
 scikit-learn
 joblib
+torch
+transformers
