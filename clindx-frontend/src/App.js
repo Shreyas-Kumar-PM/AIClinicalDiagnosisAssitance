@@ -9,7 +9,9 @@ import EvaluationDetailPage from "./pages/EvaluationDetailPage";
 import PatientSummaryPage from "./pages/PatientSummaryPage";
 import AuditLogsPage from "./pages/AuditLogsPage";
 import ProfilePage from "./pages/ProfilePage";
-import WhatIfSimulatorPage from "./pages/WhatIfSimulatorPage"; // ✅ NEW
+import WhatIfSimulatorPage from "./pages/WhatIfSimulatorPage";
+import TreatmentResponseSimulatorPage from "./pages/TreatmentResponseSimulatorPage";
+import EarlyWarningPage from "./pages/EarlyWarningPage";
 
 export default function App() {
   return (
@@ -20,26 +22,15 @@ export default function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/patients" element={<PatientsPage />} />
         <Route path="/evaluate/:patientId" element={<EvaluationPage />} />
-        <Route
-          path="/patients/:patientId/history"
-          element={<EvaluationHistoryPage />}
-        />
-        <Route
-          path="/patients/:patientId/evaluations/:evaluationId"
-          element={<EvaluationDetailPage />}
-        />
-        <Route
-          path="/patients/:patientId/summary"
-          element={<PatientSummaryPage />}
-        />
+        <Route path="/patients/:patientId/history" element={<EvaluationHistoryPage />} />
+        <Route path="/patients/:patientId/evaluations/:evaluationId" element={<EvaluationDetailPage />} />
+        <Route path="/patients/:patientId/summary" element={<PatientSummaryPage />} />
         <Route path="/audit-logs" element={<AuditLogsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
 
-        {/* ✅ WHAT-IF CLINICAL SIMULATOR */}
-        <Route
-          path="/patients/:patientId/simulator"
-          element={<WhatIfSimulatorPage />}
-        />
+        <Route path="/patients/:patientId/simulator" element={<WhatIfSimulatorPage />} />
+        <Route path="/patients/:patientId/treatment" element={<TreatmentResponseSimulatorPage />} />
+        <Route path="/early-warning" element={<EarlyWarningPage />} />
       </Routes>
     </Router>
   );

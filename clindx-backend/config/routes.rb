@@ -17,9 +17,14 @@ Rails.application.routes.draw do
         resources :evaluations, only: [:index, :show, :create]
       end
 
-      # ---------- WHAT-IF CLINICAL SIMULATOR (NEW) ----------
+      # ---------- SIMULATORS ----------
       post "/simulator/what_if", to: "simulator#what_if"
+      post "/simulator/treatment_response", to: "treatment_simulator#treatment_response"
 
+      # ✅ NEW — EARLY WARNING SYSTEM
+      get "/early_warning", to: "early_warning#index"
+      get "/early_warning/:patient_id", to: "early_warning#show"
+      get "/dashboard/summary", to: "dashboard#summary"
     end
   end
 end
