@@ -5,3 +5,5 @@ development:
   pool: 5
   username: postgres
   password:
+production:
+  url: <%= ENV["DATABASE_URL"] %>
