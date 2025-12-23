@@ -1,5 +1,4 @@
 # inference/predict.py
-
 import os
 import numpy as np
 import pandas as pd
@@ -11,19 +10,42 @@ from inference.hf_explainer import HFDiagnosisExplainer
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "models")
 
-symptom_encoder = joblib.load(os.path.join(MODEL_DIR, "symptom_encoder.pkl"))
-symptom_model = joblib.load(os.path.join(MODEL_DIR, "symptom_model.pkl"))
-vitals_model = joblib.load(os.path.join(MODEL_DIR, "vitals_model.pkl"))
-lab_model = joblib.load(os.path.join(MODEL_DIR, "lab_model.pkl"))
+_models_loaded = False
 
-vitals_features = joblib.load(os.path.join(MODEL_DIR, "vitals_features.pkl"))
-lab_features = joblib.load(os.path.join(MODEL_DIR, "lab_features.pkl"))
-
-EXPECTED_SYMPTOM_FEATURES = symptom_model.n_features_in_
-encoder_vocab = list(symptom_encoder.classes_)
-encoder_index = {s: i for i, s in enumerate(encoder_vocab)}
+symptom_encoder = None
+symptom_model = None
+vitals_model = None
+lab_model = None
+vitals_features = None
+lab_features = None
 
 hf_explainer = HFDiagnosisExplainer()
+
+
+def load_models():
+    global _models_loaded
+    global symptom_encoder, symptom_model
+    global vitals_model, lab_model
+    global vitals_features, lab_features
+
+    if _models_loaded:
+        return
+
+    try:
+        symptom_encoder = joblib.load(os.path.join(MODEL_DIR, "symptom_encoder.pkl"))
+        symptom_model = joblib.load(os.path.join(MODEL_DIR, "symptom_model.pkl"))
+        vitals_model = joblib.load(os.path.join(MODEL_DIR, "vitals_model.pkl"))
+        lab_model = joblib.load(os.path.join(MODEL_DIR, "lab_model.pkl"))
+        vitals_features = joblib.load(os.path.join(MODEL_DIR, "vitals_features.pkl"))
+        lab_features = joblib.load(os.path.join(MODEL_DIR, "lab_features.pkl"))
+
+        _models_loaded = True
+        print("✅ Models loaded")
+
+    except Exception as e:
+        print("❌ Model load failed:", e)
+        raise RuntimeError("ML models unavailable")
+
 
 def normalize_symptoms(symptoms):
     return [
@@ -32,16 +54,23 @@ def normalize_symptoms(symptoms):
         if isinstance(s, str)
     ]
 
+
 def build_symptom_vector(symptoms):
-    vector = np.zeros(EXPECTED_SYMPTOM_FEATURES)
+    vector = np.zeros(symptom_model.n_features_in_)
+    encoder_index = {s: i for i, s in enumerate(symptom_encoder.classes_)}
+
     for s in symptoms:
         if s in encoder_index:
             idx = encoder_index[s]
-            if idx < EXPECTED_SYMPTOM_FEATURES:
+            if idx < len(vector):
                 vector[idx] = 1
+
     return vector.reshape(1, -1)
 
+
 def predict(symptoms, vitals, labs):
+    load_models()
+
     symptoms = normalize_symptoms(symptoms)
     symptom_vector = build_symptom_vector(symptoms)
     symptom_pred = symptom_model.predict(symptom_vector)[0]
@@ -64,13 +93,6 @@ def predict(symptoms, vitals, labs):
         diagnosis = "Viral Infection"
         high_risk = False
 
-    hf_context = hf_symptom_analysis(symptoms)
-    hf_explanation = hf_explainer.explain(
-        diagnosis=diagnosis,
-        risk_score=avg_risk,
-        symptoms=symptoms
-    )
-
     return {
         "primary_diagnosis": diagnosis,
         "high_risk": high_risk,
@@ -79,8 +101,8 @@ def predict(symptoms, vitals, labs):
             "classical_symptom_prediction": symptom_pred,
             "vitals_risk_probability": round(vitals_prob, 2),
             "lab_risk_probability": round(lab_prob, 2),
-            "hf_analysis": hf_context,
-            "hf_explanation": hf_explanation
+            "hf_analysis": hf_symptom_analysis(symptoms),
+            "hf_explanation": None
         },
         "top_diagnoses": [
             {"name": "Viral Infection", "confidence": round(1 - avg_risk, 2)},

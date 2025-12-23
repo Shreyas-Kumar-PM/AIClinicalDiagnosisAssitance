@@ -1,13 +1,8 @@
 # api/main.py
-
-import os
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from typing import List
-
 from inference.predict import predict
-
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 app = FastAPI(title="ClinDx ML")
 
@@ -22,7 +17,11 @@ def health():
 
 @app.post("/predict")
 def run_prediction(req: DiagnosisRequest):
-    return predict(req.symptoms, req.vitals, req.labs)
+    return predict(
+        symptoms=req.symptoms,
+        vitals=req.vitals,
+        labs=req.labs
+    )
 
 @app.post("/predict_debug")
 async def run_prediction_debug(request: Request):
@@ -30,10 +29,6 @@ async def run_prediction_debug(request: Request):
     parsed = DiagnosisRequest(**raw)
 
     return {
-        "DEBUG_raw": raw,
-        "DEBUG_result": predict(
-            parsed.symptoms,
-            parsed.vitals,
-            parsed.labs
-        )
+        "input": parsed.dict(),
+        "output": predict(parsed.symptoms, parsed.vitals, parsed.labs)
     }
