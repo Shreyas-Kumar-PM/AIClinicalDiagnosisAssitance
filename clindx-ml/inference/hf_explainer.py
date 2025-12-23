@@ -1,37 +1,32 @@
-from transformers import pipeline
+# inference/hf_explainer.py
 
 class HFDiagnosisExplainer:
-    """
-    OPTIONAL explanation generator.
-    Disabled by default to prevent OOM + large images.
-    """
-
-    _instance = None
-
     def __init__(self):
         self.enabled = False
         self.generator = None
 
-    def load(self):
-        # Do NOT load unless explicitly enabled
+    def _load(self):
         if self.generator is not None:
             return
 
         try:
+            from transformers import pipeline
+
             self.generator = pipeline(
                 task="text2text-generation",
                 model="google/flan-t5-base",
                 max_length=120,
-                do_sample=False,
-                device=-1  # CPU only
+                do_sample=False
             )
             self.enabled = True
+
         except Exception as e:
-            print("⚠️ HF Explainer disabled:", e)
+            print("⚠️ HF explainer disabled:", e)
             self.enabled = False
 
     def explain(self, diagnosis, risk_score, symptoms):
-        # HARD SAFE GUARD
+        self._load()
+
         if not self.enabled:
             return None
 
