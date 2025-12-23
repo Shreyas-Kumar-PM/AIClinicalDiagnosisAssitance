@@ -1,19 +1,7 @@
-default: &default
+development:
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
-
-development:
-  <<: *default
   database: clindx_dev
+  pool: 5
   username: postgres
   password:
-  host: localhost
-
-test:
-  <<: *default
-  database: clindx_test
-
-production:
-  <<: *default
-  url: <%= ENV["DATABASE_URL"] %>
