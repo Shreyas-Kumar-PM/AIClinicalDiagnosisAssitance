@@ -1,20 +1,29 @@
-# api/main.py
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from typing import List
+
 from inference.predict import predict
 
 app = FastAPI(title="ClinDx ML")
 
+# -------------------------------------------------
+# REQUEST SCHEMA
+# -------------------------------------------------
 class DiagnosisRequest(BaseModel):
     symptoms: List[str]
     vitals: List[float]
     labs: List[float]
 
+# -------------------------------------------------
+# HEALTH
+# -------------------------------------------------
 @app.get("/")
 def health():
     return {"status": "ok"}
 
+# -------------------------------------------------
+# NORMAL PREDICTION
+# -------------------------------------------------
 @app.post("/predict")
 def run_prediction(req: DiagnosisRequest):
     return predict(
@@ -23,12 +32,27 @@ def run_prediction(req: DiagnosisRequest):
         labs=req.labs
     )
 
+# -------------------------------------------------
+# 🔥 DEBUG ENDPOINT (DO NOT REMOVE)
+# -------------------------------------------------
 @app.post("/predict_debug")
 async def run_prediction_debug(request: Request):
-    raw = await request.json()
-    parsed = DiagnosisRequest(**raw)
+    """
+    Shows EXACT frontend payload vs ML input.
+    """
+
+    raw_body = await request.json()
+
+    parsed = DiagnosisRequest(**raw_body)
+
+    prediction_output = predict(
+        symptoms=parsed.symptoms,
+        vitals=parsed.vitals,
+        labs=parsed.labs
+    )
 
     return {
-        "input": parsed.dict(),
-        "output": predict(parsed.symptoms, parsed.vitals, parsed.labs)
+        "DEBUG_raw_frontend_payload": raw_body,
+        "DEBUG_parsed_request": parsed.dict(),
+        "DEBUG_prediction_output": prediction_output
     }
