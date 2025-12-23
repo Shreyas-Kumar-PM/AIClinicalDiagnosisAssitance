@@ -3,6 +3,12 @@ from pydantic import BaseModel
 from typing import List
 
 from inference.predict import predict
+import os
+
+os.environ["TRANSFORMERS_CACHE"] = "/tmp/hf"
+os.environ["HF_HOME"] = "/tmp/hf"
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 
 app = FastAPI(title="ClinDx ML")
 
