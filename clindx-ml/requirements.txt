@@ -7,6 +7,4 @@ pandas==2.2.2
 scikit-learn==1.4.2
 joblib==1.4.2
 
-# Optional HF (lazy-loaded only)
-torch==2.1.0+cpu ; platform_system != "Windows"
-transformers==4.40.2
+
