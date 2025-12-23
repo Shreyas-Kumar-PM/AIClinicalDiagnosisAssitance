@@ -15,7 +15,7 @@ class DiagnosisRequest(BaseModel):
     labs: List[float]
 
 # -------------------------------------------------
-# HEALTH
+# HEALTH CHECK (NO MODEL LOAD)
 # -------------------------------------------------
 @app.get("/")
 def health():
@@ -33,16 +33,11 @@ def run_prediction(req: DiagnosisRequest):
     )
 
 # -------------------------------------------------
-# 🔥 DEBUG ENDPOINT (DO NOT REMOVE)
+# DEBUG ENDPOINT
 # -------------------------------------------------
 @app.post("/predict_debug")
 async def run_prediction_debug(request: Request):
-    """
-    Shows EXACT frontend payload vs ML input.
-    """
-
     raw_body = await request.json()
-
     parsed = DiagnosisRequest(**raw_body)
 
     prediction_output = predict(
