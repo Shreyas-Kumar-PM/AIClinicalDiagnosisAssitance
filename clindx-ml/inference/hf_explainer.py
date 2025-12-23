@@ -1,6 +1,11 @@
 from transformers import pipeline
 
 class HFDiagnosisExplainer:
+    """
+    OPTIONAL explanation generator.
+    Disabled by default to prevent OOM + large images.
+    """
+
     _instance = None
 
     def __init__(self):
@@ -8,6 +13,7 @@ class HFDiagnosisExplainer:
         self.generator = None
 
     def load(self):
+        # Do NOT load unless explicitly enabled
         if self.generator is not None:
             return
 
@@ -16,7 +22,8 @@ class HFDiagnosisExplainer:
                 task="text2text-generation",
                 model="google/flan-t5-base",
                 max_length=120,
-                do_sample=False
+                do_sample=False,
+                device=-1  # CPU only
             )
             self.enabled = True
         except Exception as e:
@@ -24,8 +31,7 @@ class HFDiagnosisExplainer:
             self.enabled = False
 
     def explain(self, diagnosis, risk_score, symptoms):
-        self.load()
-
+        # HARD SAFE GUARD
         if not self.enabled:
             return None
 
