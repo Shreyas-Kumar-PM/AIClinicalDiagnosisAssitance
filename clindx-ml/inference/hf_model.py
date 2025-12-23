@@ -1,23 +1,39 @@
 # inference/hf_model.py
+import os
 
 MODEL_NAME = "emilyalsentzer/Bio_ClinicalBERT"
 
+_tokenizer = None
+_model = None
+_torch_available = False
+
+try:
+    import torch
+    from transformers import AutoTokenizer, AutoModel
+    _torch_available = True
+except Exception:
+    _torch_available = False
+
+
 def hf_symptom_analysis(symptoms):
     """
-    OPTIONAL HF context extractor.
-    Safe: returns None if torch/transformers unavailable.
+    OPTIONAL clinical NLP context.
+    NEVER crashes the app.
     """
-    try:
-        import torch
-        from transformers import AutoTokenizer, AutoModel
+    if not _torch_available:
+        return None
 
-        tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-        model = AutoModel.from_pretrained(MODEL_NAME)
-        model.eval()
+    global _tokenizer, _model
+
+    try:
+        if _model is None:
+            _tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+            _model = AutoModel.from_pretrained(MODEL_NAME)
+            _model.eval()
 
         text = "Patient presents with: " + ", ".join(symptoms)
 
-        inputs = tokenizer(
+        inputs = _tokenizer(
             text,
             return_tensors="pt",
             truncation=True,
@@ -26,7 +42,7 @@ def hf_symptom_analysis(symptoms):
         )
 
         with torch.no_grad():
-            outputs = model(**inputs)
+            outputs = _model(**inputs)
             embedding = outputs.last_hidden_state.mean(dim=1)
 
         return {
@@ -36,5 +52,5 @@ def hf_symptom_analysis(symptoms):
         }
 
     except Exception as e:
-        print("⚠️ HF symptom analysis skipped:", e)
+        print("⚠️ HF analysis skipped:", e)
         return None
