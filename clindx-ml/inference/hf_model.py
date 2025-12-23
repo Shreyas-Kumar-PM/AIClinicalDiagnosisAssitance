@@ -1,42 +1,23 @@
-import torch
-from transformers import AutoTokenizer, AutoModel
+# inference/hf_model.py
 
 MODEL_NAME = "emilyalsentzer/Bio_ClinicalBERT"
 
-_tokenizer = None
-_model = None
-_ENABLED = False  # 🔒 disabled by default
-
-def enable_hf():
-    global _ENABLED
-    _ENABLED = True
-
-def load_model():
-    global _tokenizer, _model
-
-    if not _ENABLED:
-        return
-
-    if _model is not None:
-        return
-
-    try:
-        _tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-        _model = AutoModel.from_pretrained(MODEL_NAME)
-        _model.eval()
-    except Exception as e:
-        print("⚠️ HF model skipped:", e)
-
 def hf_symptom_analysis(symptoms):
-    if not _ENABLED:
-        return None
-
+    """
+    OPTIONAL HF context extractor.
+    Safe: returns None if torch/transformers unavailable.
+    """
     try:
-        load_model()
+        import torch
+        from transformers import AutoTokenizer, AutoModel
+
+        tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+        model = AutoModel.from_pretrained(MODEL_NAME)
+        model.eval()
 
         text = "Patient presents with: " + ", ".join(symptoms)
 
-        inputs = _tokenizer(
+        inputs = tokenizer(
             text,
             return_tensors="pt",
             truncation=True,
@@ -45,7 +26,7 @@ def hf_symptom_analysis(symptoms):
         )
 
         with torch.no_grad():
-            outputs = _model(**inputs)
+            outputs = model(**inputs)
             embedding = outputs.last_hidden_state.mean(dim=1)
 
         return {
@@ -55,5 +36,5 @@ def hf_symptom_analysis(symptoms):
         }
 
     except Exception as e:
-        print("⚠️ HF model skipped:", e)
+        print("⚠️ HF symptom analysis skipped:", e)
         return None
