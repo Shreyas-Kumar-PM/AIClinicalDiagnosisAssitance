@@ -1,9 +1,11 @@
 fastapi
 uvicorn
 pydantic
-pandas
 numpy
+pandas
 scikit-learn
 joblib
-torch
-transformers
+
+torch==2.1.2
+transformers==4.36.2
+sentencepiece
