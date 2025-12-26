@@ -12,6 +12,7 @@ import ProfilePage from "./pages/ProfilePage";
 import WhatIfSimulatorPage from "./pages/WhatIfSimulatorPage";
 import TreatmentResponseSimulatorPage from "./pages/TreatmentResponseSimulatorPage";
 import EarlyWarningPage from "./pages/EarlyWarningPage";
+import VitalsTrendAnalyzerPage from "./pages/VitalsTrendAnalyzerPage";
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/patients/:patientId/simulator" element={<WhatIfSimulatorPage />} />
         <Route path="/patients/:patientId/treatment" element={<TreatmentResponseSimulatorPage />} />
         <Route path="/early-warning" element={<EarlyWarningPage />} />
+        <Route path="/vitals-trends/:patientId" element={<VitalsTrendAnalyzerPage />} />
       </Routes>
     </Router>
   );

@@ -17,14 +17,16 @@ Rails.application.routes.draw do
         resources :evaluations, only: [:index, :show, :create]
       end
 
-      # ---------- SIMULATORS ----------
-      post "/simulator/what_if", to: "simulator#what_if"
-      post "/simulator/treatment_response", to: "treatment_simulator#treatment_response"
+      # ---------- DASHBOARD ----------
+      get "/dashboard/summary", to: "dashboard#summary"
 
-      # ✅ NEW — EARLY WARNING SYSTEM
+      # ---------- EARLY WARNING ----------
       get "/early_warning", to: "early_warning#index"
       get "/early_warning/:patient_id", to: "early_warning#show"
-      get "/dashboard/summary", to: "dashboard#summary"
+
+      # ---------- ✅ VITALS TRENDS ----------
+      get "/vitals_trends/:patient_id", to: "vitals_trends#show"
+
     end
   end
 end
