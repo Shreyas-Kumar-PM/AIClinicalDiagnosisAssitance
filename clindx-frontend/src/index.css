@@ -625,3 +625,93 @@ table tbody tr:hover {
   color: #6b7280;
   font-weight: 600;
 }
+/* ============================= */
+/* VITALS TRENDS — GLOBAL FIXES */
+/* ============================= */
+
+.vitals-page {
+  color: #e5e7eb;
+}
+
+/* Page headers */
+.vitals-page h2,
+.vitals-page h5,
+.vitals-page h6 {
+  color: #f5f5dc;
+  font-weight: 700;
+}
+
+.vitals-page p {
+  color: #9ca3af;
+}
+
+/* ============================= */
+/* GLASS CARD — CONSISTENT STYLE */
+/* ============================= */
+
+.glass-card {
+  background: rgba(17, 24, 39, 0.9);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  color: #e5e7eb;
+  transition: all 0.25s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* ============================= */
+/* PATIENT SELECTION CARDS */
+/* ============================= */
+
+.patient-card {
+  cursor: pointer;
+}
+
+.patient-card h6 {
+  color: #0a0a00;
+  font-weight: 600;
+}
+
+.patient-card .small {
+  color: #9ca3af;
+}
+
+.patient-card.selected {
+  border: 2px solid #3b82f6 !important;
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
+}
+
+/* ============================= */
+/* CHART CONTAINERS */
+/* ============================= */
+
+.vitals-chart-card {
+  padding: 18px;
+}
+
+.vitals-chart-card h6 {
+  margin-bottom: 12px;
+  color: #0e0e01;
+}
+
+/* ============================= */
+/* FIX CHART.JS LABEL COLORS */
+/* ============================= */
+
+.chartjs-render-monitor {
+  color: #010612 !important;
+}
+
+/* ============================= */
+/* EMPTY STATE */
+/* ============================= */
+
+.vitals-empty {
+  text-align: center;
+  color: #01040a;
+  padding: 40px;
+}

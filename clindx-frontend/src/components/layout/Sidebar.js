@@ -47,7 +47,13 @@ export default function Sidebar() {
         >
           Early Warning System
         </Nav.Link>
-
+        <Nav.Link
+          as={Link}
+          to="/vitals-trends/4"
+          style={{ color: "#e5e7eb", marginBottom: "12px" }}
+        >
+          Vitals Trends
+        </Nav.Link>
         <Nav.Link
           as={Link}
           to="/audit-logs"
