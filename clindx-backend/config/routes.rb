@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       # ---------- AUTH ----------
       post "/register", to: "auth#register"
       post "/login",    to: "auth#login"
-
+      post "voice_diagnosis/evaluate", to: "voice_diagnosis#evaluate"
       # ---------- DOCTOR ----------
       get "/profile", to: "doctors#profile"
 

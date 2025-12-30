@@ -86,25 +86,34 @@ def predict(symptoms, vitals, labs):
     # -----------------------------
     symptoms = normalize_symptoms(symptoms)
     symptom_vector = build_symptom_vector(symptoms)
-
     symptom_pred = symptom_model.predict(symptom_vector)[0]
 
     # -----------------------------
-    # VITALS
+    # VITALS (VOICE-SAFE)
     # -----------------------------
-    vitals_df = pd.DataFrame([vitals], columns=vitals_features)
+    if not vitals or len(vitals) == 0:
+        vitals_row = {feature: 0.0 for feature in vitals_features}
+    else:
+        vitals_row = dict(zip(vitals_features, vitals))
+
+    vitals_df = pd.DataFrame([vitals_row], columns=vitals_features)
     vitals_prob = float(vitals_model.predict_proba(vitals_df)[0][1])
 
     # -----------------------------
-    # LABS
+    # LABS (VOICE-SAFE)
     # -----------------------------
-    labs_df = pd.DataFrame([labs], columns=lab_features)
+    if not labs or len(labs) == 0:
+        labs_row = {feature: 0.0 for feature in lab_features}
+    else:
+        labs_row = dict(zip(lab_features, labs))
+
+    labs_df = pd.DataFrame([labs_row], columns=lab_features)
     lab_prob = float(lab_model.predict_proba(labs_df)[0][1])
 
     avg_risk = float(np.mean([vitals_prob, lab_prob]))
 
     # -----------------------------
-    # FINAL DIAGNOSIS (UNCHANGED)
+    # FINAL DIAGNOSIS
     # -----------------------------
     if vitals_prob > 0.8 and lab_prob > 0.8:
         diagnosis = "Sepsis Risk"
@@ -120,7 +129,6 @@ def predict(symptoms, vitals, labs):
     # HF CONTEXT + EXPLANATION
     # -----------------------------
     hf_context = hf_symptom_analysis(symptoms)
-
     hf_explanation = hf_explainer.explain(
         diagnosis=diagnosis,
         risk_score=avg_risk,
