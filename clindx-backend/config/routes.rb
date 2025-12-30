@@ -6,6 +6,9 @@ Rails.application.routes.draw do
       post "/register", to: "auth#register"
       post "/login",    to: "auth#login"
       post "voice_diagnosis/evaluate", to: "voice_diagnosis#evaluate"
+      # ---------- WHAT-IF SIMULATOR ----------
+      post "/simulator/what_if", to: "simulator#what_if"
+      post "/simulator/treatment_response", to: "treatment_simulator#treatment_response"
       # ---------- DOCTOR ----------
       get "/profile", to: "doctors#profile"
 

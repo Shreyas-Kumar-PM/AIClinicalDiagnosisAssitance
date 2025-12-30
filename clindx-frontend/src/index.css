@@ -715,3 +715,18 @@ table tbody tr:hover {
   color: #01040a;
   padding: 40px;
 }
+.medical-highlight {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+.medical-term {
+  background: #fde68a;
+  color: #92400e;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
