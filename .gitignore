@@ -33,3 +33,20 @@ clindx-ml/models/*.pkl
 # ===============================
 clindx-ml/data/symptoms/disease_symptoms_mendeley.csv
 clindx-ml/models/symptom_ensemble_calibrated.pkl
+# Python virtual environments
+venv/
+env/
+.whisper-env/
+whisper-env/
+clindx-backend/whisper-env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Torch / ML binaries
+*.dylib
+*.so
+
+# OS
+.DS_Store
