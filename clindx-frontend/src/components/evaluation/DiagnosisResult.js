@@ -2,16 +2,14 @@
 import { Card, Badge, Row, Col, Alert } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom"; // ✅ ADDED
+import { Link } from "react-router-dom";
 
 export default function DiagnosisResult({ result }) {
   if (!result || !result.top_diagnoses || !result.model_outputs) {
     return null;
   }
 
-  const hf = result.model_outputs.hf_analysis;
-  const explanation = result.model_outputs.hf_explanation;
-
+  /* ---------------- RISK COMPUTATION ---------------- */
   const riskLabel =
     result.risk_score >= 0.8
       ? "High"
@@ -21,26 +19,14 @@ export default function DiagnosisResult({ result }) {
 
   const riskScorePercent = Math.round(result.risk_score * 100);
 
-  const riskColor =
-    riskLabel === "High"
-      ? "#b91c1c"
-      : riskLabel === "Moderate"
-      ? "#f59e0b"
-      : "#15803d";
-
-  const patientContext =
-    typeof hf?.hf_summary === "string" && hf.hf_summary.trim().length > 0
-      ? hf.hf_summary
-      : "Patient presents with reported clinical symptoms.";
-
+  /* ---------------- CLINICAL SUMMARY ---------------- */
   const clinicalSummary = `
-${patientContext}.
-Model analysis suggests ${result.primary_diagnosis.toLowerCase()}.
-Overall clinical risk is assessed as ${riskLabel.toLowerCase()}.
+Primary diagnosis is ${result.primary_diagnosis}.
+Overall risk is assessed as ${riskLabel.toLowerCase()} based on vitals,
+laboratory findings and symptom patterns.
 `.trim();
 
-  const needleRotation = -90 + (riskScorePercent / 100) * 180;
-
+  /* ---------------- BAR CHART ---------------- */
   const data = {
     labels: result.top_diagnoses.map((d) => d.name),
     datasets: [
@@ -70,25 +56,23 @@ Overall clinical risk is assessed as ${riskLabel.toLowerCase()}.
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Card className="p-4 mt-4">
 
-        {/* 🔬 WHAT-IF SIMULATOR BUTTON */}
+        {/* ================= ACTION BUTTONS ================= */}
         <div className="text-end mb-3">
           <Link to={`/patients/${result.patient_id}/simulator`}>
-            <button className="btn btn-primary">
+            <button className="btn btn-primary me-2">
               What-If Simulator
             </button>
           </Link>
 
-          {" "}
-
-          {/* 💊 TREATMENT RESPONSE BUTTON */}
           <Link to={`/patients/${result.patient_id}/treatment`}>
             <button className="btn btn-outline-primary">
               Treatment Response
             </button>
           </Link>
         </div>
-{/* ================= HEADER ================= */}
-<Row className="mb-3 align-items-center">
+
+        {/* ================= HEADER ================= */}
+        <Row className="mb-3 align-items-center">
           <Col>
             <h4 style={{ color: "#0f172a", fontWeight: 600 }}>
               Diagnosis <span style={{ color: "#1e3a8a" }}>Result</span>
@@ -135,7 +119,7 @@ Overall clinical risk is assessed as ${riskLabel.toLowerCase()}.
           </Alert>
         )}
 
-        {/* ================= CHART ================= */}
+        {/* ================= CONFIDENCE CHART ================= */}
         <div className="mt-4">
           <h6 className="text-secondary mb-3">
             Diagnostic Confidence Distribution
@@ -145,12 +129,12 @@ Overall clinical risk is assessed as ${riskLabel.toLowerCase()}.
 
         {/* ================= CLASSICAL ML OUTPUTS ================= */}
         <div className="mt-4">
-          <h6 className="text-secondary">Classical ML Model Insights</h6>
+          <h6 className="text-secondary">Model Insights</h6>
 
           <Row className="mt-3 g-3">
             {[
               {
-                label: "Symptoms Model",
+                label: "Symptom Model Output",
                 value: result.model_outputs.classical_symptom_prediction,
               },
               {
@@ -185,49 +169,20 @@ Overall clinical risk is assessed as ${riskLabel.toLowerCase()}.
           </Row>
         </div>
 
-        {/* ================= AI EXPLANATION ================= */}
-        {explanation && (
-          <div className="mt-4">
-            <h6 className="text-secondary">AI Clinical Explanation</h6>
-            <Card
-              className="p-4 mt-2"
-              style={{
-                background: "#ecfeff",
-                borderRadius: "14px",
-                border: "1px solid #bae6fd",
-              }}
-            >
-              <p className="mb-0 text-muted">{explanation}</p>
-            </Card>
-          </div>
-        )}
-
-        {/* ================= NLP CONTEXT ================= */}
-        {hf && (
-          <div className="mt-4">
-            <h6 className="text-secondary">Clinical NLP Context</h6>
-            <Card
-              className="p-3 mt-2"
-              style={{
-                background: "#f8fafc",
-                borderRadius: "14px",
-                border: "1px solid #e5e7eb",
-              }}
-            >
-              <p className="text-muted mb-2">{patientContext}</p>
-              <Row>
-                <Col md={6}>
-                  <Badge bg="info">Model: {hf.hf_model}</Badge>
-                </Col>
-                <Col md={6} className="text-end">
-                  <Badge bg="secondary">
-                    NLP Signal: {hf.hf_confidence.toFixed(2)}
-                  </Badge>
-                </Col>
-              </Row>
-            </Card>
-          </div>
-        )}
+        {/* ================= CLINICAL EXPLANATION ================= */}
+        <div className="mt-4">
+          <h6 className="text-secondary">Clinical Explanation</h6>
+          <Card
+            className="p-4 mt-2"
+            style={{
+              background: "#ecfeff",
+              borderRadius: "14px",
+              border: "1px solid #bae6fd",
+            }}
+          >
+            <p className="mb-0 text-muted">{clinicalSummary}</p>
+          </Card>
+        </div>
       </Card>
     </motion.div>
   );

@@ -3,9 +3,6 @@ import numpy as np
 import pandas as pd
 import joblib
 
-from inference.hf_model import hf_symptom_analysis
-from inference.hf_explainer import HFDiagnosisExplainer
-
 # -------------------------------------------------
 # PATHS
 # -------------------------------------------------
@@ -40,17 +37,12 @@ lab_features = joblib.load(
 )
 
 # -------------------------------------------------
-# 🔐 LOCK FEATURE SPACE (CRITICAL)
+# 🔐 LOCK FEATURE SPACE
 # -------------------------------------------------
 EXPECTED_SYMPTOM_FEATURES = symptom_model.n_features_in_
 
 encoder_vocab = list(symptom_encoder.classes_)
 encoder_index = {s: i for i, s in enumerate(encoder_vocab)}
-
-# -------------------------------------------------
-# HF EXPLAINER (SINGLE INSTANCE)
-# -------------------------------------------------
-hf_explainer = HFDiagnosisExplainer()
 
 # -------------------------------------------------
 # HELPERS
@@ -77,6 +69,27 @@ def build_symptom_vector(symptoms):
 
     return vector.reshape(1, -1)
 
+def generate_clinical_explanation(diagnosis, risk_score, symptoms):
+    """
+    Classical rule-based explanation (HF replacement)
+    """
+    if diagnosis == "Sepsis Risk":
+        return (
+            "High clinical risk detected due to abnormal vitals and laboratory indicators. "
+            "Immediate medical intervention is strongly recommended."
+        )
+
+    if diagnosis == "Bacterial Infection":
+        return (
+            "Symptoms combined with moderate risk indicators suggest a bacterial infection. "
+            "Further diagnostic evaluation may be required."
+        )
+
+    return (
+        "Clinical indicators are consistent with a viral infection. "
+        "Supportive care and regular monitoring are advised."
+    )
+
 # -------------------------------------------------
 # MAIN PREDICTION FUNCTION
 # -------------------------------------------------
@@ -89,7 +102,7 @@ def predict(symptoms, vitals, labs):
     symptom_pred = symptom_model.predict(symptom_vector)[0]
 
     # -----------------------------
-    # VITALS (VOICE-SAFE)
+    # VITALS
     # -----------------------------
     if not vitals or len(vitals) == 0:
         vitals_row = {feature: 0.0 for feature in vitals_features}
@@ -100,7 +113,7 @@ def predict(symptoms, vitals, labs):
     vitals_prob = float(vitals_model.predict_proba(vitals_df)[0][1])
 
     # -----------------------------
-    # LABS (VOICE-SAFE)
+    # LABS
     # -----------------------------
     if not labs or len(labs) == 0:
         labs_row = {feature: 0.0 for feature in lab_features}
@@ -125,14 +138,8 @@ def predict(symptoms, vitals, labs):
         diagnosis = "Viral Infection"
         high_risk = False
 
-    # -----------------------------
-    # HF CONTEXT + EXPLANATION
-    # -----------------------------
-    hf_context = hf_symptom_analysis(symptoms)
-    hf_explanation = hf_explainer.explain(
-        diagnosis=diagnosis,
-        risk_score=avg_risk,
-        symptoms=symptoms
+    explanation = generate_clinical_explanation(
+        diagnosis, avg_risk, symptoms
     )
 
     # -----------------------------
@@ -147,8 +154,7 @@ def predict(symptoms, vitals, labs):
             "classical_symptom_prediction": symptom_pred,
             "vitals_risk_probability": round(vitals_prob, 2),
             "lab_risk_probability": round(lab_prob, 2),
-            "hf_analysis": hf_context,
-            "hf_explanation": hf_explanation
+            "clinical_explanation": explanation
         },
 
         "top_diagnoses": [

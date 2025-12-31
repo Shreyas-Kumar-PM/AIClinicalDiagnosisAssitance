@@ -7,7 +7,7 @@ from inference.predict import predict
 app = FastAPI(title="ClinDx ML")
 
 # -------------------------------------------------
-# REQUEST SCHEMA (UPDATED)
+# REQUEST SCHEMA
 # -------------------------------------------------
 class DiagnosisRequest(BaseModel):
     symptoms: List[str]
@@ -15,7 +15,7 @@ class DiagnosisRequest(BaseModel):
     labs: Optional[List[float]] = None
 
 # -------------------------------------------------
-# HEALTH
+# HEALTH CHECK
 # -------------------------------------------------
 @app.get("/")
 def health():
